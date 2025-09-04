@@ -1,15 +1,15 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, computed, effect, HostListener, inject, signal } from '@angular/core';
 import { Constituent } from '@models/constituens.model';
 import { ConstituensData } from '@services/constituensData';
 import { TableModule } from 'primeng/table';
-import { PrefixValueDirective } from '../../directives/prefix-value.directive';
 import { SelectionService } from '@services/selection';
 import { SearchService } from '@services/search';
+import { InstrumentItem } from "@components/instrument-item/instrument-item";
 
 @Component({
   selector: 'app-instrument-list',
-  imports: [CommonModule, DecimalPipe, TableModule, PrefixValueDirective],
+  imports: [CommonModule, TableModule, InstrumentItem],
   templateUrl: './instrument-list.html',
   styleUrl: './instrument-list.scss'
 })
@@ -19,13 +19,12 @@ export class InstrumentList {
   loading = signal(true);
   sortField = signal<keyof Constituent>('shortName');
   sortOrder = signal<1 | -1>(1);
-  isMobile = signal(typeof window !== 'undefined' && window.innerWidth < 960);
+  isMobile = signal(typeof window !== 'undefined' && window.innerWidth < 1280);
 
   // lista maestra
   rows = signal<Constituent[]>([]);
 
   constructor(
-    private sel: SelectionService,
     private search: SearchService,
   ) {
     // cuando llega el JSON → guardamos la lista
@@ -36,13 +35,6 @@ export class InstrumentList {
         this.loading.set(false);
       }
     });
-  }
-
-  selectRow(r: Constituent) {
-    this.sel.select(r);
-  }
-  isSelected(r: Constituent) {
-    return this.sel.isSelected(r);
   }
 
   ngOnInit() {
@@ -78,15 +70,8 @@ export class InstrumentList {
     this.sortOrder.set(e.order);
   }
 
-  toMM(amount: number): number {
-    return amount / 1_000_000;
-  }
-  sign(n: number) {
-    return n > 0 ? '+' : '';
-  }
-
   @HostListener('window:resize')
   onResize() {
-    this.isMobile.set(window.innerWidth < 960);
+    this.isMobile.set(window.innerWidth < 1280);
   }
 }

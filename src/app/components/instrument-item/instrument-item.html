@@ -1,1 +1,17 @@
-<p>instrument-item works!</p>
+<tr (click)="selectRow()" [class.row-selected]="isSelected()">
+  <td>{{ instrument.shortName }}</td>
+  <td class="cell-num">{{ instrument.lastPrice | number: '1.0-2' }}</td>
+  <td class="cell-num">{{ toMM(instrument.volumeMoney) | number: '1.0-2' }}</td>
+  <td class="cell-num" prefix-value [type]="instrument.pctDay">
+    {{ sign(instrument.pctDay) }}{{ instrument.pctDay | number: '1.2-2' }}%
+  </td>
+  <td class="cell-num" prefix-value [type]="instrument.pct30D">
+    {{ sign(instrument.pct30D) }}{{ instrument.pct30D | number: '1.2-2' }}%
+  </td>
+  <td class="cell-num" prefix-value [type]="instrument.pctCY">
+    {{ sign(instrument.pctCY) }}{{ instrument.pctCY | number: '1.2-2' }}%
+  </td>
+  <td class="cell-num" prefix-value [type]="instrument.pct1Y">
+    {{ sign(instrument.pct1Y) }}{{ instrument.pct1Y | number: '1.2-2' }}%
+  </td>
+</tr>

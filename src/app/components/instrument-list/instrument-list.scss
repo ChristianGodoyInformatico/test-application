@@ -4,7 +4,7 @@
 
 .two-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
   gap: 1rem;
 }
 
@@ -65,11 +65,6 @@
   .p-datatable-tbody>tr:hover {
     background: rgba(255, 255, 255, 0.04);
   }
-}
-
-.cell-num {
-  text-align: right;
-  white-space: nowrap;
 }
 
 .pos {

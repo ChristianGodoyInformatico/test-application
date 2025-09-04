@@ -20,4 +20,11 @@ describe('Chart', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('changes period preset', () => {
+    component.customRange.set([new Date(), new Date()]);
+    component.setPreset('1M');
+    expect(component.selectedPreset()).toBe('1M');
+    expect(component.customRange()).toBeNull();
+  });
 });

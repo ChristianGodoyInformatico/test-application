@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InstrumentList } from './instrument-list';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('InstrumentList', () => {
   let component: InstrumentList;
@@ -8,9 +9,8 @@ describe('InstrumentList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InstrumentList]
-    })
-    .compileComponents();
+      imports: [InstrumentList, HttpClientTestingModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(InstrumentList);
     component = fixture.componentInstance;

@@ -22,23 +22,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-r>
-      <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
-        <td>{{ r.shortName }}</td>
-        <td class="cell-num">{{ r.lastPrice | number: '1.0-2' }}</td>
-        <td class="cell-num">{{ toMM(r.volumeMoney) | number: '1.0-2' }}</td>
-        <td class="cell-num" prefix-value [type]="r.pctDay">
-          {{ sign(r.pctDay) }}{{ r.pctDay | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pct30D">
-          {{ sign(r.pct30D) }}{{ r.pct30D | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pctCY">
-          {{ sign(r.pctCY) }}{{ r.pctCY | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pct1Y">
-          {{ sign(r.pct1Y) }}{{ r.pct1Y | number: '1.2-2' }}%
-        </td>
-      </tr>
+      <app-instrument-item [instrument]="r"></app-instrument-item>
     </ng-template>
   </p-table>
   <p-table class="tbl--dense tbl--no-lines" [value]="right()" dataKey="codeInstrument" [customSort]="true"
@@ -61,23 +45,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-r>
-      <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
-        <td>{{ r.shortName }}</td>
-        <td class="cell-num">{{ r.lastPrice | number: '1.0-2' }}</td>
-        <td class="cell-num">{{ toMM(r.volumeMoney) | number: '1.0-2' }}</td>
-        <td class="cell-num" prefix-value [type]="r.pctDay">
-          {{ sign(r.pctDay) }}{{ r.pctDay | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pct30D">
-          {{ sign(r.pct30D) }}{{ r.pct30D | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pctCY">
-          {{ sign(r.pctCY) }}{{ r.pctCY | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pct1Y">
-          {{ sign(r.pct1Y) }}{{ r.pct1Y | number: '1.2-2' }}%
-        </td>
-      </tr>
+      <app-instrument-item [instrument]="r"></app-instrument-item>
     </ng-template>
   </p-table>
 </div>
@@ -103,23 +71,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-r>
-      <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
-        <td>{{ r.shortName }}</td>
-        <td class="cell-num">{{ r.lastPrice | number: '1.0-2' }}</td>
-        <td class="cell-num">{{ toMM(r.volumeMoney) | number: '1.0-2' }}</td>
-        <td class="cell-num" prefix-value [type]="r.pctDay">
-          {{ sign(r.pctDay) }}{{ r.pctDay | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pct30D">
-          {{ sign(r.pct30D) }}{{ r.pct30D | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pctCY">
-          {{ sign(r.pctCY) }}{{ r.pctCY | number: '1.2-2' }}%
-        </td>
-        <td class="cell-num" prefix-value [type]="r.pct1Y">
-          {{ sign(r.pct1Y) }}{{ r.pct1Y | number: '1.2-2' }}%
-        </td>
-      </tr>
+      <app-instrument-item [instrument]="r"></app-instrument-item>
     </ng-template>
   </p-table>
 </div>
