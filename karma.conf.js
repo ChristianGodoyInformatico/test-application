@@ -79,7 +79,11 @@ module.exports = function (config) {
       mode: 'development',
       module: {
         rules: [
-          { test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/ },
+          {
+            test: /\.ts$/,
+            use: { loader: 'ts-loader', options: { configFile: 'tsconfig.spec.json' } },
+            exclude: /node_modules/,
+          },
           { test: /\.html$/, loader: 'raw-loader' },       // para templates
           { test: /\.scss$/, use: ['raw-loader'] }         // o sass-loader si quieres compilar estilos
         ]
