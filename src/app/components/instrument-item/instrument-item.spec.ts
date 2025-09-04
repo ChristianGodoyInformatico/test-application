@@ -48,4 +48,17 @@ describe('InstrumentItem', () => {
     fixture.detectChanges();
     expect(tr.classList.contains('row-selected')).toBeTrue();
   });
+
+  it('emits selection on click', () => {
+    const sel = TestBed.inject(SelectionService);
+    spyOn(sel, 'select');
+    const tr: HTMLElement = fixture.nativeElement.querySelector('tr');
+    tr.click();
+    expect(sel.select).toHaveBeenCalledWith(component.instrument);
+  });
+
+  it('renders instrument short name', () => {
+    const td: HTMLElement = fixture.nativeElement.querySelector('td');
+    expect(td.textContent).toContain(component.instrument.shortName);
+  });
 });

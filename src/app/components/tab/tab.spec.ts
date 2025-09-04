@@ -10,7 +10,7 @@ describe('Tab', () => {
     await TestBed.configureTestingModule({
       imports: [Tab]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(Tab);
     component = fixture.componentInstance;
@@ -19,5 +19,10 @@ describe('Tab', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('renders instrument list in first tab', () => {
+    const list = fixture.nativeElement.querySelector('app-instrument-list');
+    expect(list).not.toBeNull();
   });
 });
