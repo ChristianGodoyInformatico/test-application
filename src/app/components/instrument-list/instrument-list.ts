@@ -1,10 +1,11 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, HostListener, inject, signal } from '@angular/core';
 import { Constituent } from '@models/constituens.model';
 import { ConstituensData } from '@services/constituensData';
 import { TableModule } from 'primeng/table';
 import { PrefixValueDirective } from '../../directives/prefix-value.directive';
 import { SelectionService } from '@services/selection';
+import { SearchService } from '@services/search';
 
 @Component({
   selector: 'app-instrument-list',
@@ -16,14 +17,17 @@ export class InstrumentList {
   private svc = inject(ConstituensData);
 
   loading = signal(true);
-  query = signal('');
   sortField = signal<keyof Constituent>('shortName');
   sortOrder = signal<1 | -1>(1);
+  isMobile = signal(typeof window !== 'undefined' && window.innerWidth < 960);
 
   // lista maestra
   rows = signal<Constituent[]>([]);
 
-  constructor(private sel: SelectionService) {
+  constructor(
+    private sel: SelectionService,
+    private search: SearchService,
+  ) {
     // cuando llega el JSON → guardamos la lista
     effect(() => {
       const payload = this.svc.constituendsList();
@@ -34,8 +38,12 @@ export class InstrumentList {
     });
   }
 
-  selectRow(r: Constituent) { this.sel.select(r); }
-  isSelected(r: Constituent) { return this.sel.isSelected(r); }
+  selectRow(r: Constituent) {
+    this.sel.select(r);
+  }
+  isSelected(r: Constituent) {
+    return this.sel.isSelected(r);
+  }
 
   ngOnInit() {
     this.svc.getData();
@@ -43,15 +51,11 @@ export class InstrumentList {
 
   // filtrar + ordenar una sola vez para ambas tablas
   filteredSorted = computed(() => {
-    const q = this.query().trim().toLowerCase();
+    const q = this.search.query().trim().toLowerCase();
     const field = this.sortField();
     const order = this.sortOrder();
 
-    const filtered = this.rows().filter(r =>
-      !q ||
-      r.shortName.toLowerCase().includes(q) ||
-      r.name.toLowerCase().includes(q)
-    );
+    const filtered = this.rows().filter((r) => !q || r.shortName.toLowerCase().includes(q));
 
     return [...filtered].sort((a, b) => {
       const va = (a as any)[field];
@@ -64,7 +68,9 @@ export class InstrumentList {
   });
 
   // split visible
-  left = computed(() => this.filteredSorted().slice(0, Math.ceil(this.filteredSorted().length / 2)));
+  left = computed(() =>
+    this.filteredSorted().slice(0, Math.ceil(this.filteredSorted().length / 2)),
+  );
   right = computed(() => this.filteredSorted().slice(Math.ceil(this.filteredSorted().length / 2)));
 
   onSort(e: { field: keyof Constituent; order: 1 | -1 }) {
@@ -72,6 +78,15 @@ export class InstrumentList {
     this.sortOrder.set(e.order);
   }
 
-  toMM(amount: number): number { return amount / 1_000_000; }
-  sign(n: number) { return n > 0 ? '+' : ''; }
+  toMM(amount: number): number {
+    return amount / 1_000_000;
+  }
+  sign(n: number) {
+    return n > 0 ? '+' : '';
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile.set(window.innerWidth < 960);
+  }
 }

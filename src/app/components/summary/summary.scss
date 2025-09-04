@@ -4,6 +4,13 @@
   flex: 1;
 }
 
+@media (max-width: 960px) {
+  :host {
+    flex: none;
+    width: 100%;
+  }
+}
+
 .p-tab {
   flex: 1;
   text-align-last: center;

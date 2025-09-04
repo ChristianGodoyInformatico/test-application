@@ -1,77 +1,130 @@
-<ng-container *ngIf="!loading(); else loadingTpl">
-  <div class="two-cols">
-    <!-- Tabla izquierda -->
-    <p-table class="tbl--dense tbl--no-lines" [value]="left()" dataKey="codeInstrument" [customSort]="true" [sortField]="sortField()"
-      [sortOrder]="sortOrder()" (sortFunction)="onSort($event)">
-      <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="shortName">Nombre <p-sortIcon field="shortName" /></th>
-          <th class="cell-num" pSortableColumn="lastPrice">Último <p-sortIcon field="lastPrice" /></th>
-          <th class="cell-num" pSortableColumn="volumeMoney">Monto (MM) <p-sortIcon field="volumeMoney" /></th>
-          <th class="cell-num" pSortableColumn="pctDay">Var día <p-sortIcon field="pctDay" /></th>
-          <th class="cell-num" pSortableColumn="pct30D">Var 30d <p-sortIcon field="pct30D" /></th>
-          <th class="cell-num" pSortableColumn="pctCY">Año Actual <p-sortIcon field="pctCY" /></th>
-          <th class="cell-num" pSortableColumn="pct1Y">12 Meses <p-sortIcon field="pct1Y" /></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-r>
-        <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
-          <td>{{ r.shortName }}</td>
-          <td class="cell-num">{{ r.lastPrice | number:'1.0-2' }}</td>
-          <td class="cell-num">{{ toMM(r.volumeMoney) | number:'1.0-2' }}</td>
-          <td class="cell-num" prefix-value [type]="r.pctDay">
-            {{ sign(r.pctDay) }}{{ r.pctDay | number:'1.2-2' }}%
-          </td>
-          <td class="cell-num" prefix-value [type]="r.pct30D">
-            {{ sign(r.pct30D) }}{{ r.pct30D | number:'1.2-2' }}%
-          </td>
-          <td class="cell-num" prefix-value [type]="r.pctCY">
-            {{ sign(r.pctCY) }}{{ r.pctCY | number:'1.2-2' }}%
-          </td>
-          <td class="cell-num" prefix-value [type]="r.pct1Y">
-            {{ sign(r.pct1Y) }}{{ r.pct1Y | number:'1.2-2' }}%
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+@if(!loading()){
+@if(!isMobile()){
+<div class="two-cols">
+  <!-- Tabla izquierda -->
+  <p-table class="tbl--dense tbl--no-lines" [value]="left()" dataKey="codeInstrument" [customSort]="true"
+    [sortField]="sortField()" [sortOrder]="sortOrder()" (sortFunction)="onSort($event)">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="shortName">Nombre <p-sortIcon field="shortName" /></th>
+        <th class="cell-num" pSortableColumn="lastPrice">
+          Último <p-sortIcon field="lastPrice" />
+        </th>
+        <th class="cell-num" pSortableColumn="volumeMoney">
+          Monto (MM) <p-sortIcon field="volumeMoney" />
+        </th>
+        <th class="cell-num" pSortableColumn="pctDay">Var día <p-sortIcon field="pctDay" /></th>
+        <th class="cell-num" pSortableColumn="pct30D">Var 30d <p-sortIcon field="pct30D" /></th>
+        <th class="cell-num" pSortableColumn="pctCY">
+          Año Actual <p-sortIcon field="pctCY" />
+        </th>
+        <th class="cell-num" pSortableColumn="pct1Y">12 Meses <p-sortIcon field="pct1Y" /></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-r>
+      <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
+        <td>{{ r.shortName }}</td>
+        <td class="cell-num">{{ r.lastPrice | number: '1.0-2' }}</td>
+        <td class="cell-num">{{ toMM(r.volumeMoney) | number: '1.0-2' }}</td>
+        <td class="cell-num" prefix-value [type]="r.pctDay">
+          {{ sign(r.pctDay) }}{{ r.pctDay | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pct30D">
+          {{ sign(r.pct30D) }}{{ r.pct30D | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pctCY">
+          {{ sign(r.pctCY) }}{{ r.pctCY | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pct1Y">
+          {{ sign(r.pct1Y) }}{{ r.pct1Y | number: '1.2-2' }}%
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-table class="tbl--dense tbl--no-lines" [value]="right()" dataKey="codeInstrument" [customSort]="true"
+    [sortField]="sortField()" [sortOrder]="sortOrder()" (sortFunction)="onSort($event)">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="shortName">Nombre <p-sortIcon field="shortName" /></th>
+        <th class="cell-num" pSortableColumn="lastPrice">
+          Último <p-sortIcon field="lastPrice" />
+        </th>
+        <th class="cell-num" pSortableColumn="volumeMoney">
+          Monto (MM) <p-sortIcon field="volumeMoney" />
+        </th>
+        <th class="cell-num" pSortableColumn="pctDay">Var día <p-sortIcon field="pctDay" /></th>
+        <th class="cell-num" pSortableColumn="pct30D">Var 30d <p-sortIcon field="pct30D" /></th>
+        <th class="cell-num" pSortableColumn="pctCY">
+          Año Actual <p-sortIcon field="pctCY" />
+        </th>
+        <th class="cell-num" pSortableColumn="pct1Y">12 Meses <p-sortIcon field="pct1Y" /></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-r>
+      <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
+        <td>{{ r.shortName }}</td>
+        <td class="cell-num">{{ r.lastPrice | number: '1.0-2' }}</td>
+        <td class="cell-num">{{ toMM(r.volumeMoney) | number: '1.0-2' }}</td>
+        <td class="cell-num" prefix-value [type]="r.pctDay">
+          {{ sign(r.pctDay) }}{{ r.pctDay | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pct30D">
+          {{ sign(r.pct30D) }}{{ r.pct30D | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pctCY">
+          {{ sign(r.pctCY) }}{{ r.pctCY | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pct1Y">
+          {{ sign(r.pct1Y) }}{{ r.pct1Y | number: '1.2-2' }}%
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else{
+<div class="single-table">
+  <p-table class="tbl--dense tbl--no-lines" [value]="filteredSorted()" dataKey="codeInstrument" [customSort]="true"
+    [sortField]="sortField()" [sortOrder]="sortOrder()" (sortFunction)="onSort($event)">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="shortName">Nombre <p-sortIcon field="shortName" /></th>
+        <th class="cell-num" pSortableColumn="lastPrice">
+          Último <p-sortIcon field="lastPrice" />
+        </th>
+        <th class="cell-num" pSortableColumn="volumeMoney">
+          Monto (MM) <p-sortIcon field="volumeMoney" />
+        </th>
+        <th class="cell-num" pSortableColumn="pctDay">Var día <p-sortIcon field="pctDay" /></th>
+        <th class="cell-num" pSortableColumn="pct30D">Var 30d <p-sortIcon field="pct30D" /></th>
+        <th class="cell-num" pSortableColumn="pctCY">
+          Año Actual <p-sortIcon field="pctCY" />
+        </th>
+        <th class="cell-num" pSortableColumn="pct1Y">12 Meses <p-sortIcon field="pct1Y" /></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-r>
+      <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
+        <td>{{ r.shortName }}</td>
+        <td class="cell-num">{{ r.lastPrice | number: '1.0-2' }}</td>
+        <td class="cell-num">{{ toMM(r.volumeMoney) | number: '1.0-2' }}</td>
+        <td class="cell-num" prefix-value [type]="r.pctDay">
+          {{ sign(r.pctDay) }}{{ r.pctDay | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pct30D">
+          {{ sign(r.pct30D) }}{{ r.pct30D | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pctCY">
+          {{ sign(r.pctCY) }}{{ r.pctCY | number: '1.2-2' }}%
+        </td>
+        <td class="cell-num" prefix-value [type]="r.pct1Y">
+          {{ sign(r.pct1Y) }}{{ r.pct1Y | number: '1.2-2' }}%
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+}
+}@else{
+<p>Cargando…</p>
 
-    <!-- Tabla derecha -->
-    <p-table class="tbl--dense tbl--no-lines" [value]="right()" dataKey="codeInstrument" [customSort]="true" [sortField]="sortField()"
-      [sortOrder]="sortOrder()" (sortFunction)="onSort($event)">
-      <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="shortName">Nombre <p-sortIcon field="shortName" /></th>
-          <th class="cell-num" pSortableColumn="lastPrice">Último <p-sortIcon field="lastPrice" /></th>
-          <th class="cell-num" pSortableColumn="volumeMoney">Monto (MM) <p-sortIcon field="volumeMoney" /></th>
-          <th class="cell-num" pSortableColumn="pctDay">Var día <p-sortIcon field="pctDay" /></th>
-          <th class="cell-num" pSortableColumn="pct30D">Var 30d <p-sortIcon field="pct30D" /></th>
-          <th class="cell-num" pSortableColumn="pctCY">Año Actual <p-sortIcon field="pctCY" /></th>
-          <th class="cell-num" pSortableColumn="pct1Y">12 Meses <p-sortIcon field="pct1Y" /></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-r>
-        <tr (click)="selectRow(r)" [class.row-selected]="isSelected(r)">
-          <td>{{ r.shortName }}</td>
-          <td class="cell-num">{{ r.lastPrice | number:'1.0-2' }}</td>
-          <td class="cell-num">{{ toMM(r.volumeMoney) | number:'1.0-2' }}</td>
-          <td class="cell-num" prefix-value [type]="r.pctDay">
-            {{ sign(r.pctDay) }}{{ r.pctDay | number:'1.2-2' }}%
-          </td>
-          <td class="cell-num" prefix-value [type]="r.pct30D">
-            {{ sign(r.pct30D) }}{{ r.pct30D | number:'1.2-2' }}%
-          </td>
-          <td class="cell-num" prefix-value [type]="r.pctCY">
-            {{ sign(r.pctCY) }}{{ r.pctCY | number:'1.2-2' }}%
-          </td>
-          <td class="cell-num" prefix-value [type]="r.pct1Y">
-            {{ sign(r.pct1Y) }}{{ r.pct1Y | number:'1.2-2' }}%
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</ng-container>
-
-<ng-template #loadingTpl>
-  <p>Cargando…</p>
-</ng-template>
+}

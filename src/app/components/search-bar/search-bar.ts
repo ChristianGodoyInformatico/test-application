@@ -4,6 +4,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { SearchService } from '@services/search';
 
 @Component({
   selector: 'app-search-bar',
@@ -13,8 +14,6 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class SearchBar {
 
-  value1: any;
-  value2: any;
-  value3: any;
+  constructor(public search: SearchService) { }
 
 }

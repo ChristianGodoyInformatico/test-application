@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, HostListener, inject, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HistoryPoint } from '@models/constituens.model';
 import { DetailsService } from '@services/details';
 import { SelectionService } from '@services/selection';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { ChartModule } from 'primeng/chart';
+import { ChartModule, UIChart } from 'primeng/chart';
 import { DatePickerModule } from 'primeng/datepicker';
 import { MessageModule } from 'primeng/message';
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -25,10 +25,13 @@ type Preset = '1M' | '3M' | '6M' | '1A' | '5A' | 'CUSTOM';
 export class Chart {
   private selection = inject(SelectionService);
   private details = inject(DetailsService);
+  @ViewChild(UIChart) chart?: UIChart;
 
   presets = [
-    { label: '1M', value: '1M' }, { label: '3M', value: '3M' },
-    { label: '6M', value: '6M' }, { label: '1A', value: '1A' },
+    { label: '1M', value: '1M' },
+    { label: '3M', value: '3M' },
+    { label: '6M', value: '6M' },
+    { label: '1A', value: '1A' },
     { label: '5A', value: '5A' }
   ];
 
@@ -42,7 +45,9 @@ export class Chart {
   notFound = computed(() => !this.loading() && !this.raw().length);
 
   maxDate = computed<Date | undefined>(() =>
-    this.raw().length ? new Date(Math.max(...this.raw().map(d => d.datetimeLastPriceTs * 1000))) : undefined
+    this.raw().length
+      ? new Date(Math.max(...this.raw().map((d) => d.datetimeLastPriceTs * 1000)))
+      : undefined,
   );
 
   filtered = computed(() => {
@@ -53,7 +58,7 @@ export class Chart {
       const r = this.customRange();
       if (!r || r.length < 2) return data;
       const [s, e] = r;
-      return data.filter(d => {
+      return data.filter((d) => {
         const t = d.datetimeLastPriceTs * 1000;
         return t >= s.getTime() && t <= e.getTime();
       });
@@ -66,19 +71,27 @@ export class Chart {
       '3M': 90,
       '6M': 180,
       '1A': 365,
-      '5A': 1825
+      '5A': 1825,
     };
     const days = daysMap[this.selectedPreset() as Exclude<Preset, 'CUSTOM'>];
-    const from = new Date(last); from.setDate(from.getDate() - days);
-    return data.filter(d => (d.datetimeLastPriceTs * 1000) >= from.getTime());
+    const from = new Date(last);
+    from.setDate(from.getDate() - days);
+    return data.filter((d) => d.datetimeLastPriceTs * 1000 >= from.getTime());
   });
 
   data = computed(() => {
     const serie = this.filtered();
     return {
-      labels: serie.map(p => new Date(p.datetimeLastPriceTs * 1000).toLocaleDateString()),
+      labels: serie.map((p) => new Date(p.datetimeLastPriceTs * 1000).toLocaleDateString()),
       datasets: [
-        { label: 'Precio', data: serie.map(p => p.lastPrice), borderWidth: 2, fill: true, tension: 0.25, pointRadius: 0 }
+        {
+          label: 'Precio',
+          data: serie.map((p) => p.lastPrice),
+          borderWidth: 2,
+          fill: true,
+          tension: 0.25,
+          pointRadius: 0,
+        },
       ]
     };
   });
@@ -88,9 +101,9 @@ export class Chart {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#cfd3dc' } },
-      y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#cfd3dc' } }
-    }
+      x: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { display: false } },
+      y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#cfd3dc' } },
+    },
   };
 
   constructor() {
@@ -109,5 +122,10 @@ export class Chart {
     this.customRange.set(value ?? null);
     this.selectedPreset.set('CUSTOM');
     if (value && value.length === 2 && pop) pop.hide(); // cerrar popover al completar rango
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.chart?.refresh();
   }
 }

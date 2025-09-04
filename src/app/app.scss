@@ -12,3 +12,17 @@
     flex: 3;
   }
 }
+
+@media (max-width: 960px) {
+  .principal-content {
+    flex-direction: column;
+
+    .selected-constituens {
+      flex: none;
+    }
+
+    app-summary {
+      width: 100%;
+    }
+  }
+}
