@@ -72,18 +72,3 @@
 .neg {
   color: red;
 }
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: .75rem;
-}
-
-.search {
-  background: transparent;
-  border: 1px solid var(--app-border);
-  color: var(--app-text);
-  border-radius: 6px;
-  padding: .4rem .6rem;
-}

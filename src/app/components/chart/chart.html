@@ -4,6 +4,10 @@
 </div>
 }
 
+@if(notFound()){
+  <p-message severity="warn">No hay datos disponibles para el instrumento seleccionado.</p-message>
+}
+
 <div class="chart-toolbar">
 
   <p-popover #calPop [dismissable]="true">
@@ -14,15 +18,12 @@
 </div>
 
 <!-- Presets -->
-<p-selectButton [options]="presets" [multiple]="false"
-  [ngModel]="selectedPreset() === 'CUSTOM' ? null : selectedPreset()" (onChange)="setPreset($event.value)">
-</p-selectButton>
+ <div class="date-filters">
+   <p-selectButton [options]="presets" [multiple]="false"
+     [ngModel]="selectedPreset() === 'CUSTOM' ? null : selectedPreset()" (onChange)="setPreset($event.value)">
+   </p-selectButton>
 
-<!-- Botón que abre el Popover con el DatePicker -->
-<button pButton type="button" icon="pi pi-calendar" (click)="calPop.toggle($event)"></button>
-
-
-<p-message *ngIf="notFound()" severity="warn"
-  text="No hay datos disponibles para el instrumento seleccionado."></p-message>
-
+   <!-- Botón que abre el Popover con el DatePicker -->
+   <button pButton type="button" icon="pi pi-calendar" (click)="calPop.toggle($event)"></button>
+ </div>
 

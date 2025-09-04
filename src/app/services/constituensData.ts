@@ -1,7 +1,8 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { ApiResponse, IndexConstituenData } from "../models/constituens.model";
+import { ApiResponse, Constituent, IndexConstituenData } from "../models/constituens.model";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { SelectionService } from "./selection";
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { HttpClient } from "@angular/common/http";
 export class ConstituensData {
 
   private http = inject(HttpClient);
+  private selection = inject(SelectionService);
 
   constituendsList = signal<IndexConstituenData | null>(null);
 
@@ -25,6 +27,25 @@ export class ConstituensData {
         }
 
         this.constituendsList.set(res.data);
+
+        const info = res.data.info;
+        const defaultRow: Constituent = {
+          codeInstrument: info.codeInstrument,
+          name: info.name,
+          shortName: info.shortName,
+          pctDay: 0,
+          pct30D: 0,
+          pctCY: 0,
+          pct1Y: 0,
+          lastPrice: 0,
+          datetimeLastPrice: '',
+          volumeMoney: 0,
+          accumulatedVolumeMoney: 0,
+          tend: 'same',
+          performanceAbsolute: 0,
+          performanceRelative: 0,
+        };
+        this.selection.select(defaultRow);
       }
     });
 

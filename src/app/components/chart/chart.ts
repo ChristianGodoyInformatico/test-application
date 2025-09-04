@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, computed, effect, inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HistoryPoint } from '@models/constituens.model';
 import { DetailsService } from '@services/details';
@@ -16,12 +15,6 @@ import { PopoverModule } from 'primeng/popover';
 
 type Preset = '1M' | '3M' | '6M' | '1A' | '5A' | 'CUSTOM';
 
-interface HistoryResponse {
-  success: boolean;
-  code: number;
-  data: { chart: HistoryPoint[] };
-}
-
 @Component({
   selector: 'app-chart',
   imports: [CommonModule, ChartModule, CardModule, MessageModule, FormsModule,
@@ -30,8 +23,8 @@ interface HistoryResponse {
   styleUrl: './chart.scss'
 })
 export class Chart {
-  private http = inject(HttpClient);
   private selection = inject(SelectionService);
+  private details = inject(DetailsService);
 
   presets = [
     { label: '1M', value: '1M' }, { label: '3M', value: '3M' },
@@ -41,16 +34,19 @@ export class Chart {
 
   selectedPreset: WritableSignal<Preset> = signal<Preset>('6M');
   customRange = signal<Date[] | null>(null);
-  raw = signal<HistoryPoint[] | null>(null);
-  loading = signal(false);
-  notFound = signal(false);
+  loading = computed(() => this.details.loading());
+  raw = computed<HistoryPoint[]>(() => {
+    const chart = this.details.history()?.chart ?? [];
+    return [...chart].sort((a, b) => a.datetimeLastPriceTs - b.datetimeLastPriceTs);
+  });
+  notFound = computed(() => !this.loading() && !this.raw().length);
 
   maxDate = computed<Date | undefined>(() =>
-    this.raw()?.length ? new Date(Math.max(...this.raw()!.map(d => d.datetimeLastPriceTs * 1000))) : undefined
+    this.raw().length ? new Date(Math.max(...this.raw().map(d => d.datetimeLastPriceTs * 1000))) : undefined
   );
 
   filtered = computed(() => {
-    const data = this.raw() ?? [];
+    const data = this.raw();
     if (!data.length) return [];
 
     if (this.selectedPreset() === 'CUSTOM') {
@@ -100,7 +96,7 @@ export class Chart {
   constructor() {
     effect(() => {
       const code = this.selection.selectedCode();
-      if (code) this.loadHistory(code);
+      if (code) this.details.loadFor(code);
     });
   }
 
@@ -113,19 +109,5 @@ export class Chart {
     this.customRange.set(value ?? null);
     this.selectedPreset.set('CUSTOM');
     if (value && value.length === 2 && pop) pop.hide(); // cerrar popover al completar rango
-  }
-
-  private loadHistory(code: string) {
-    this.loading.set(true); this.notFound.set(false); this.raw.set([]);
-    const url = `assets/resources/history/history-${code}.json`;
-    this.http.get<HistoryResponse>(url).subscribe({
-      next: (res) => {
-        this.loading.set(false);
-        if (!res?.success || res.code !== 200 || !res.data?.chart?.length) { this.notFound.set(true); return; }
-        const ordered = [...res.data.chart].sort((a, b) => a.datetimeLastPriceTs - b.datetimeLastPriceTs);
-        this.raw.set(ordered);
-      },
-      error: () => { this.loading.set(false); this.notFound.set(true); }
-    });
   }
 }

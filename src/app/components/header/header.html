@@ -1,13 +1,19 @@
-<h1>IPSA, CHILE</h1>
-<span>Indice</span>
+<h1>{{ info()?.shortName }}, {{ info()?.countryName }}</h1>
+<span class="label">Indice</span>
 <p-divider />
+@if(price(); as p){
 <div class="current-values">
   <span class="label">Valor Actual</span>
-  <span class="value">6.474,37</span>
+  <span class="value">{{ p.lastPrice | number:'1.2-2' }}</span>
 
   <span class="label">Var.% Actual</span>
-  <span class="value red">-0.78%</span>
+  <span class="value" [ngClass]="signClass(p.performanceRelative)">
+    {{ p.performanceRelative | number:'1.2-2' }}%
+  </span>
 
   <span class="label">Var. Puntos Actual</span>
-  <span class="value green">-51.01</span>
+  <span class="value" [ngClass]="signClass(p.performanceAbsolute)">
+    {{ p.performanceAbsolute | number:'1.2-2' }}
+  </span>
 </div>
+}
