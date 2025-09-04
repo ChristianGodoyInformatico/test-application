@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.principal-content {
+  display: flex;
+  gap: 16px;
+
+  .selected-constituens {
+    flex: 1;
+  }
+}

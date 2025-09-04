@@ -1,0 +1,30 @@
+$color-bg: #131313;
+$color-surface-1: #1D1F20;
+$color-surface-2: #252729;
+$color-border: #2B2D2E;
+
+$color-texto-principal: #B8B8B8;
+$color-texto-secundario: #9A9A9A;
+$color-texto-blanco: #FFFFFF;
+
+$color-verde: #00d343;
+$color-rojo: #d13344;
+$color-azul: #0A4D87;
+
+$shadow-color: rgba(0, 0, 0, .5);
+
+
+:root {
+  --app-bg: #{$color-bg};
+  --app-surface-1: #{$color-surface-1};
+  --app-surface-2: #{$color-surface-2};
+  --app-border: #{$color-border};
+
+  --app-text: #{$color-texto-principal};
+  --app-text-muted: #{$color-texto-secundario};
+  --app-text-white: #{$color-texto-blanco};
+
+  --app-green: #{$color-verde};
+  --app-red: #{$color-rojo};
+  --app-blue: #{$color-azul};
+}

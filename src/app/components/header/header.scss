@@ -1,0 +1,18 @@
+@use '../../../assets/scss/variables' as vars;
+
+.current-values {
+  display: flex;
+  gap: 8px;
+
+  .label {
+    color: vars.$color-texto-secundario;
+  }
+
+  .red {
+    color: vars.$color-rojo;
+  }
+
+  .green {
+    color: vars.$color-verde;
+  }
+}

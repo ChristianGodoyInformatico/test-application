@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+:host ::ng-deep .p-datatable {
+  background: var(--app-surface-1);
+  color: var(--app-text);
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--app-surface-1);
+}
+
+:host ::ng-deep .row-selected { background: rgba(255,255,255,.06); }
+
+:host ::ng-deep {
+  .tbl--no-lines {
+
+    .p-datatable-thead>tr>th,
+    .p-datatable-tbody>tr>td,
+    .p-datatable-tfoot>tr>td {
+      border: 0 !important;
+      box-shadow: none;
+    }
+  }
+
+  /* Hacerla más compacta (menos padding y altura) */
+  .tbl--dense {
+    .p-datatable-thead>tr>th {
+      padding: .35rem .5rem;
+      /* header más chico */
+    }
+
+    .p-datatable-tbody>tr>td {
+      padding: .30rem .5rem;
+      /* filas más compactas */
+      line-height: 1;
+      /* reduce altura visual */
+    }
+
+    /* (Opcional) letra un poco más pequeña */
+    .p-datatable-table {
+      font-size: 1rem;
+    }
+  }
+
+  /* (Opcional) hover muy sutil para distinguir filas */
+  .p-datatable-tbody>tr:hover {
+    background: rgba(255, 255, 255, .04);
+  }
+}
+
+.cell-num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.pos {
+  color: green;
+}
+
+.neg {
+  color: red;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .75rem;
+}
+
+.search {
+  background: transparent;
+  border: 1px solid var(--app-border);
+  color: var(--app-text);
+  border-radius: 6px;
+  padding: .4rem .6rem;
+}

@@ -1,0 +1,28 @@
+@if(!notFound()){
+<div class="chart-wrap">
+  <p-chart type="line" [data]="data()" [options]="options"></p-chart>
+</div>
+}
+
+<div class="chart-toolbar">
+
+  <p-popover #calPop [dismissable]="true">
+    <p-datepicker [inline]="true" selectionMode="range" [maxDate]="maxDate()" dateFormat="dd-mm-yy"
+      [ngModel]="customRange()" (ngModelChange)="onRangeChange($event, calPop)">
+    </p-datepicker>
+  </p-popover>
+</div>
+
+<!-- Presets -->
+<p-selectButton [options]="presets" [multiple]="false"
+  [ngModel]="selectedPreset() === 'CUSTOM' ? null : selectedPreset()" (onChange)="setPreset($event.value)">
+</p-selectButton>
+
+<!-- Botón que abre el Popover con el DatePicker -->
+<button pButton type="button" icon="pi pi-calendar" (click)="calPop.toggle($event)"></button>
+
+
+<p-message *ngIf="notFound()" severity="warn"
+  text="No hay datos disponibles para el instrumento seleccionado."></p-message>
+
+
