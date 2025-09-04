@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, effect, HostListener, inject, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HistoryPoint } from '@models/constituens.model';
-import { DetailsService } from '@services/details';
-import { SelectionService } from '@services/selection';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChartModule, UIChart } from 'primeng/chart';
@@ -11,6 +9,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { MessageModule } from 'primeng/message';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PopoverModule } from 'primeng/popover';
+import { DetailsService, SelectionService } from '@services/index';
 
 
 type Preset = '1M' | '3M' | '6M' | '1A' | '5A' | 'CUSTOM';

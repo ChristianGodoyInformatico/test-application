@@ -4,7 +4,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { SearchService } from '@services/search';
+import { SearchService } from '@services/index';
 
 @Component({
   selector: 'app-search-bar',

@@ -1,4 +1,6 @@
 // src/test.ts
+declare const require: any;
+
 import 'zone.js/dist/zone';
 import 'zone.js/dist/zone-testing';
 
@@ -13,3 +15,7 @@ getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
+
+// Importa automáticamente todos los archivos *.spec.ts
+const context = require.context('./', true, /\.spec\.ts$/);
+context.keys().forEach(context);

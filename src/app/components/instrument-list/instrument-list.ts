@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, HostListener, inject, signal } from '@angular/core';
 import { Constituent } from '@models/constituens.model';
-import { ConstituensData } from '@services/constituensData';
 import { TableModule } from 'primeng/table';
-import { SelectionService } from '@services/selection';
-import { SearchService } from '@services/search';
 import { InstrumentItem } from "@components/instrument-item/instrument-item";
+import { ConstituensData, SearchService } from '@services/index';
 
 @Component({
   selector: 'app-instrument-list',
@@ -15,6 +13,8 @@ import { InstrumentItem } from "@components/instrument-item/instrument-item";
 })
 export class InstrumentList {
   private svc = inject(ConstituensData);
+  private search = inject(SearchService);
+
 
   loading = signal(true);
   sortField = signal<keyof Constituent>('shortName');
@@ -24,9 +24,7 @@ export class InstrumentList {
   // lista maestra
   rows = signal<Constituent[]>([]);
 
-  constructor(
-    private search: SearchService,
-  ) {
+  constructor() {
     // cuando llega el JSON → guardamos la lista
     effect(() => {
       const payload = this.svc.constituendsList();

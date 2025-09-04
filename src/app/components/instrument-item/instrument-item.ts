@@ -1,8 +1,8 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
+import { PrefixValueDirective } from '@directives/prefix-value.directive';
 import { Constituent } from '@models/constituens.model';
 import { SelectionService } from '@services/selection';
-import { PrefixValueDirective } from '../../directives/prefix-value.directive';
 
 @Component({
   selector: 'app-instrument-item',
