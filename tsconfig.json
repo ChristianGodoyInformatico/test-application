@@ -18,6 +18,7 @@
       "@components/*": ["./src/app/components/*"],
       "@assets/*": ["./src/assets/*"],
       "@services/*": ["./src/app/services/*"],
+      "@directives/*": ["./src/app/directives/*"],
       "@models/*": ["./src/app/models/*"],
     }
   },
