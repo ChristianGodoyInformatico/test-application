@@ -1,18 +1,120 @@
 <p-tabs value="0">
   <p-tablist>
-    <p-tab value="0">Resumen</p-tab>
-    <p-tab value="1">Detalles</p-tab>
+    <p-tab value="0">Detalles</p-tab>
+    <p-tab value="1">Resumen</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
-      <p class="m-0">
-        Resumen!
-      </p>
+      @if(resumen(); as r){
+      <div class="detail-content">
+        <ul>
+          <li>
+            <span>PUNTA COMPRA</span>
+            <span class="value">{{ r.price.bid | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>VOL. COMPRA</span>
+            <span class="value">{{ r.price.bidVolume | number:'1.0-0' }}</span>
+          </li>
+          <li>
+            <span>PUNTA VENTA</span>
+            <span class="value">{{ r.price.ask | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>VOL. VENTA</span>
+            <span class="value">{{ r.price.askVolume | number:'1.0-0' }}</span>
+          </li>
+          <li>
+            <span>VOL. DINERO</span>
+            <span class="value">{{ r.price.volumeMoney | number:'1.0-0' }}</span>
+          </li>
+          <li>
+            <span>VOL. DINERO ACUM.</span>
+            <span class="value">{{ r.price.accumulatedVolumeMoney | number:'1.0-0' }}</span>
+          </li>
+          <li>
+            <span>VOL. INSTRUMENTO</span>
+            <span class="value">{{ r.price.volumeInstrument | number:'1.0-0' }}</span>
+          </li>
+          <li>
+            <span>VOL. INST. ACUM.</span>
+            <span class="value">{{ r.price.accumulatedVolumeInstrument | number:'1.0-0' }}</span>
+          </li>
+          <li>
+            <span>MONEDA</span>
+            <span class="value">{{ r.info.currencyName }} ({{ r.info.currencySymbol }})</span>
+          </li>
+          <li>
+            <span>TIPO CAMBIO</span>
+            <span class="value">{{ r.info.exchangeRate | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>HORARIO MERCADO</span>
+            <span class="value">{{ r.info.hourOpen }} - {{ r.info.hourClose }}</span>
+          </li>
+        </ul>
+      </div>
+      }
     </p-tabpanel>
     <p-tabpanel value="1">
-      <p class="m-0">
-        Detalles!
-      </p>
+      @if(price(); as p){
+      <div class="summary-content">
+        <div class="last-update">
+          <span>Cotización</span>
+          <span>{{ p.datetimeLastPrice }}</span>
+        </div>
+        <p-divider />
+        <ul>
+          <li>
+            <span>MERCADO</span>
+            <span class="value">{{ info()?.marketName }}</span>
+          </li>
+          <li>
+            <span>APERTURA</span>
+            <span class="value">{{ p.openPrice | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>CIERRE ANTERIOR</span>
+            <span class="value">{{ p.closePrice | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>MÁXIMO DIARIO</span>
+            <span class="value">{{ p.maxDay | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>MÍNIMO DIARIO</span>
+            <span class="value">{{ p.minDay | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>MÁXIMO 52 SEMANAS</span>
+            <span class="value">{{ p.max52W | number:'1.2-2' }}</span>
+          </li>
+          <li>
+            <span>MÍNIMO 52 SEMANAS</span>
+            <span class="value">{{ p.min52W | number:'1.2-2' }}</span>
+          </li>
+        </ul>
+        <ul class="variations">
+          <li class="section-title">
+            <span>Variación**</span>
+            <span class="label">%</span>
+          </li>
+          <p-divider />
+          <li>
+            <span>1 MES</span>
+            <span class="value" [ngClass]="signClass(p.pct30D)">{{ p.pct30D | number:'1.2-2' }}%</span>
+          </li>
+          <li>
+            <span>1 AÑO</span>
+            <span class="value" [ngClass]="signClass(p.pctRelW52)">{{ p.pctRelW52 | number:'1.2-2' }}%</span>
+          </li>
+          <li>
+            <span>AÑO A LA FECHA</span>
+            <span class="value" [ngClass]="signClass(p.pctRelCY)">{{ p.pctRelCY | number:'1.2-2' }}%</span>
+          </li>
+        </ul>
+      </div>
+      }
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
